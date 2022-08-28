@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="hibernate.models.ProductEntityHb" table="product">
+    <id name="id" type="int" column="id">
+      <generator class="increment" />
+    </id>
+
+    <property name="description" type="string">
+      <column name="description" length="255" not-null="true"/>
+    </property>
+    <property name="price"  type="double">
+      <column name="price"  not-null="true"/>
+    </property>
+    <property name="count"  type="double">
+      <column name="count"  not-null="true"/>
+    </property>
+
+
+    <set name="buyerEntityHbs" table="product_buyer" inverse="true" lazy="true" fetch="select" >
+      <key>
+        <column name="product_id" not-null="true"></column>
+      </key>
+      <many-to-many entity-name="hibernate.models.BuyerEntityHb">
+        <column name="buyer_id" not-null="true"></column>
+      </many-to-many>
+    </set>
+  </class>
+</hibernate-mapping>
