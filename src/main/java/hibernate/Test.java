@@ -5,6 +5,7 @@ import hibernate.models.ProductEntityHb;
 import hibernate.services.SessionFactoryUtil;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.hibernate.Session;
 import hibernate.dao.BuyerDaoImplHb;
@@ -43,7 +44,9 @@ public class Test {
 
     BuyerDaoImplHb daoImplHb = new BuyerDaoImplHb();
    daoImplHb.getAllBuyer().forEach(System.out::println);
-   // System.out.println(daoImplHb.getBuyerById(4).toString());
+    List<ProductEntityHb> list = (daoImplHb.getAllProductById(5));
+  list.forEach(e -> System.out.println(e.toString()) );
+
     session.close();
   }
 

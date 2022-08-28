@@ -70,6 +70,6 @@ public class ProductEntityHb {
         ", description='" + description + '\'' +
         ", price=" + price +
         ", count=" + count +
-        '}';
+         '}';
   }
 }

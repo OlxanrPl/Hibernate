@@ -1,6 +1,7 @@
 package hibernate.dao;
 
 import hibernate.models.BuyerEntityHb;
+import hibernate.models.ProductEntityHb;
 import hibernate.services.SessionFactoryUtil;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +20,14 @@ public class BuyerDaoImplHb implements BuyerDao {
     SessionFactoryUtil.getSession().createQuery("From BuyerEntityHb").list();
     return buyers;
 
+  }
+
+  @Override
+  public List<ProductEntityHb> getAllProductById(Integer buyerId) {
+
+    return SessionFactoryUtil.getSession().createQuery(" select be.productEntityHbSet FROM BuyerEntityHb be WHERE be.id=:buyerId")
+        .setParameter("buyerId",buyerId)
+        .getResultList();
   }
 
   @Override
