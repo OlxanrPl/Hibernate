@@ -12,38 +12,40 @@ import org.hibernate.Transaction;
 public class BuyerDaoImplHb implements BuyerDao {
 
 
-
-
   @Override
   public List<BuyerEntityHb> getAllBuyer() {
-    List<BuyerEntityHb> buyers = (List<BuyerEntityHb>)
-    SessionFactoryUtil.getSession().createQuery("From BuyerEntityHb").list();
-    return buyers;
-
+    try (Session session = SessionFactoryUtil.getSession()) {
+      List<BuyerEntityHb> buyers = (List<BuyerEntityHb>)
+          session.createQuery("From BuyerEntityHb").list();
+      return buyers;
+    }
   }
 
   @Override
   public List<ProductEntityHb> getAllProductById(Integer buyerId) {
-
-    return SessionFactoryUtil.getSession().createQuery(" select be.productEntityHbSet FROM BuyerEntityHb be WHERE be.id=:buyerId")
-        .setParameter("buyerId",buyerId)
-        .getResultList();
+    try (Session session = SessionFactoryUtil.getSession()) {
+      return session.createQuery(
+              " select be.productEntityHbSet FROM BuyerEntityHb be WHERE be.id=:buyerId")
+          .setParameter("buyerId", buyerId)
+          .getResultList();
+    }
   }
 
   @Override
 
   public BuyerEntityHb getBuyerById(Integer buyerId) throws SQLException {
-        return SessionFactoryUtil.getSession().get(BuyerEntityHb.class, buyerId);
-
+    try (Session session = SessionFactoryUtil.getSession()) {
+      return session.get(BuyerEntityHb.class, buyerId);
+    }
   }
 
-    @Override
+  @Override
   public void addBuyer(BuyerEntityHb bt) throws SQLException {
-      Session session = SessionFactoryUtil.getSession();
-      Transaction transaction=session.beginTransaction();
-      session.save(bt);
-      transaction.commit();
-      session.close();
+    Session session = SessionFactoryUtil.getSession();
+    Transaction transaction = session.beginTransaction();
+    session.save(bt);
+    transaction.commit();
+    session.close();
 
 
   }
@@ -51,11 +53,10 @@ public class BuyerDaoImplHb implements BuyerDao {
   @Override
   public void deleteBuyer(BuyerEntityHb bt) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
-    Transaction transaction=session.beginTransaction();
+    Transaction transaction = session.beginTransaction();
     session.delete(bt);
     transaction.commit();
     session.close();
-
 
 
   }
@@ -63,7 +64,7 @@ public class BuyerDaoImplHb implements BuyerDao {
   @Override
   public void updateBuyer(BuyerEntityHb bt) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
-    Transaction transaction=session.beginTransaction();
+    Transaction transaction = session.beginTransaction();
     session.update(bt);
     transaction.commit();
     session.close();
