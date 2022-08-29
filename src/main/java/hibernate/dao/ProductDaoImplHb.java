@@ -13,21 +13,25 @@ public class ProductDaoImplHb implements ProductDao {
 
   @Override
   public List<ProductEntityHb> getAllProduct() {
-    List<ProductEntityHb> product = (List<ProductEntityHb>)
-        SessionFactoryUtil.getSession().createQuery("From ProductEntityHb").list();
+    try (Session session = SessionFactoryUtil.getSession()){
+      List<ProductEntityHb> product = (List<ProductEntityHb>)
+          session.createQuery("From ProductEntityHb").list();
+      return product;
+    }
 
-    return product;
-  }
+   }
 
   @Override
   public ProductEntityHb getProductById(Integer ProductId) throws SQLException {
-    return SessionFactoryUtil.getSession().get(ProductEntityHb.class, ProductId);
+    try (Session session = SessionFactoryUtil.getSession()) {
+      return session.get(ProductEntityHb.class, ProductId);
+    }
   }
 
   @Override
   public void addProduct(ProductEntityHb be) {
     Session session = SessionFactoryUtil.getSession();
-    Transaction transaction=session.beginTransaction();
+    Transaction transaction = session.beginTransaction();
     session.save(be);
     transaction.commit();
     session.close();
@@ -36,7 +40,7 @@ public class ProductDaoImplHb implements ProductDao {
   @Override
   public void deleteProduct(ProductEntityHb be) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
-    Transaction transaction=session.beginTransaction();
+    Transaction transaction = session.beginTransaction();
     session.delete(be);
     transaction.commit();
     session.close();
@@ -46,7 +50,7 @@ public class ProductDaoImplHb implements ProductDao {
   @Override
   public void updateProduct(ProductEntityHb be) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
-    Transaction transaction=session.beginTransaction();
+    Transaction transaction = session.beginTransaction();
     session.update(be);
     transaction.commit();
     session.close();
