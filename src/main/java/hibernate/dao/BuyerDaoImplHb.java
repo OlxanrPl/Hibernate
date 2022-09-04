@@ -1,5 +1,6 @@
 package hibernate.dao;
 
+import hibernate.models.Adress;
 import hibernate.models.BuyerEntityHb;
 import hibernate.models.ProductEntityHb;
 import hibernate.services.SessionFactoryUtil;
@@ -16,7 +17,7 @@ public class BuyerDaoImplHb implements BuyerDao {
   public List<BuyerEntityHb> getAllBuyer() {
     try (Session session = SessionFactoryUtil.getSession()) {
       List<BuyerEntityHb> buyers = (List<BuyerEntityHb>)
-          session.createQuery("From BuyerEntityHb").list();
+          session.createQuery("Select e From BuyerEntityHb e LEFT JOIN FETCH e.adress ").list();
       return buyers;
     }
   }
@@ -25,7 +26,7 @@ public class BuyerDaoImplHb implements BuyerDao {
   public List<ProductEntityHb> getAllProductById(Integer buyerId) {
     try (Session session = SessionFactoryUtil.getSession()) {
       return session.createQuery(
-              " select be.productEntityHbSet FROM BuyerEntityHb be WHERE be.id=:buyerId")
+              " select be.productEntityHbSet FROM BuyerEntityHb be LEFT JOIN FETCH be.id=:buyerId")
           .setParameter("buyerId", buyerId)
           .getResultList();
     }
@@ -43,7 +44,7 @@ public class BuyerDaoImplHb implements BuyerDao {
   public void addBuyer(BuyerEntityHb bt) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
     Transaction transaction = session.beginTransaction();
-    session.save(bt);
+    session.saveOrUpdate(bt);
     transaction.commit();
     session.close();
 
@@ -72,5 +73,27 @@ public class BuyerDaoImplHb implements BuyerDao {
 
   }
 
+  @Override
+  public Adress getAdressById(Integer buyerId) throws SQLException {
+    try (Session session = SessionFactoryUtil.getSession()) {
+      return (Adress) session.createQuery(
+              " select be.adress FROM BuyerEntityHb be LEFT JOIN FETCH be.id=:buyerId")
+          .setParameter("buyerId", buyerId)
+          .getResultList().stream().findFirst().get();
 
+    }
+
+
+  }
+
+  @Override
+  public List<ProductEntityHb> getAllProduct() {
+    try (Session session = SessionFactoryUtil.getSession()) {
+      List<ProductEntityHb> products = (List<ProductEntityHb>)
+          session.createQuery(
+                  "Select e.productEntityHbSet From BuyerEntityHb e LEFT JOIN FETCH e.productEntityHbSet ")
+              .list();
+      return products;
+    }
+  }
 }

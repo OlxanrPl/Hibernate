@@ -6,10 +6,15 @@ import java.util.List;
 
 
 public interface ProductDao {
-  List<ProductEntityHb> getAllProduct ();
+
+  List<ProductEntityHb> getAllProduct();
+
   ProductEntityHb getProductById(Integer ProductId) throws SQLException;
+
   void addProduct(ProductEntityHb be);
-  void deleteProduct (ProductEntityHb be) throws SQLException;
-  void updateProduct (ProductEntityHb be) throws SQLException;
+
+  void deleteProduct(ProductEntityHb be) throws SQLException;
+
+  void updateProduct(ProductEntityHb be) throws SQLException;
 
 }

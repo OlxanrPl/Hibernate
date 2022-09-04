@@ -19,5 +19,7 @@
     <property name="hbm2ddl.auto">update</property>
     <mapping resource="BuyerEntityHb.hbm.xml" />
     <mapping resource="ProductEntityHb.hbm.xml" />
+    <mapping resource="Adress.hbm.xml" />
+    <mapping resource="ProductDepartment.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

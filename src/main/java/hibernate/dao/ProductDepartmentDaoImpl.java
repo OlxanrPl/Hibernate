@@ -1,36 +1,33 @@
 package hibernate.dao;
 
-import hibernate.models.ProductEntityHb;
+import hibernate.models.ProductDepartment;
 import hibernate.services.SessionFactoryUtil;
 import java.sql.SQLException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
-public class ProductDaoImplHb implements ProductDao {
-
+public class ProductDepartmentDaoImpl implements ProductDepartmentDao {
 
   @Override
-  public List<ProductEntityHb> getAllProduct() {
+  public List<ProductDepartment> getAllProduct() {
     try (Session session = SessionFactoryUtil.getSession()) {
-      List<ProductEntityHb> product = (List<ProductEntityHb>)
+      List<ProductDepartment> product = (List<ProductDepartment>)
           session.createQuery(
-              "Select pe From ProductEntityHb pe LEFT JOIN FETCH pe.productDepartment").list();
+              "Select pd From ProductDepartment pd LEFT JOIN FETCH pd.productEntityHbSet").list();
       return product;
     }
-
   }
 
   @Override
-  public ProductEntityHb getProductById(Integer ProductId) throws SQLException {
+  public ProductDepartment getProductDepartmentById(Integer depId) throws SQLException {
     try (Session session = SessionFactoryUtil.getSession()) {
-      return session.get(ProductEntityHb.class, ProductId);
+      return session.get(ProductDepartment.class, depId);
     }
   }
 
   @Override
-  public void addProduct(ProductEntityHb be) {
+  public void addProductDepartment(ProductDepartment be) {
     Session session = SessionFactoryUtil.getSession();
     Transaction transaction = session.beginTransaction();
     session.save(be);
@@ -39,17 +36,16 @@ public class ProductDaoImplHb implements ProductDao {
   }
 
   @Override
-  public void deleteProduct(ProductEntityHb be) throws SQLException {
+  public void deleteProductDepartment(ProductDepartment be) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
     Transaction transaction = session.beginTransaction();
     session.delete(be);
     transaction.commit();
     session.close();
-
   }
 
   @Override
-  public void updateProduct(ProductEntityHb be) throws SQLException {
+  public void updateProductDepartment(ProductDepartment be) throws SQLException {
     Session session = SessionFactoryUtil.getSession();
     Transaction transaction = session.beginTransaction();
     session.update(be);

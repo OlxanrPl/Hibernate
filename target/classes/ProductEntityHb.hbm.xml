@@ -1,5 +1,6 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
   <class name="hibernate.models.ProductEntityHb" table="product">
@@ -17,13 +18,16 @@
       <column name="count"  not-null="true"/>
     </property>
 
+    <many-to-one name="productDepartment" class="hibernate.models.ProductDepartment" fetch="join" >
+      <column name="DEPT_ID" not-null="true" />
+    </many-to-one>
 
-    <set name="buyerEntityHbs" table="product_buyer" inverse="true" lazy="true" fetch="select" >
+    <set name="buyerEntityHbs" table="product_buyer" inverse="true" lazy="false" fetch="select"  >
       <key>
-        <column name="product_id" not-null="true"></column>
+        <column name="product_id" not-null="true"/>
       </key>
       <many-to-many entity-name="hibernate.models.BuyerEntityHb">
-        <column name="buyer_id" not-null="true"></column>
+        <column name="buyer_id" not-null="true"/>
       </many-to-many>
     </set>
   </class>

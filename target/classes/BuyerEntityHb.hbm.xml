@@ -10,9 +10,9 @@
     <property name="name" type="string">
       <column name="NAME" length="255" not-null="true"/>
     </property>
+    <one-to-one name="adress"  cascade="all" ></one-to-one>
 
-
-    <set name="productEntityHbSet" table="product_buyer" inverse="false" cascade="all" lazy="true" fetch="select" >
+    <set name="productEntityHbSet" table="product_buyer" inverse="false" cascade="all" lazy="false" fetch="select" >
       <key>
         <column name="buyer_id" not-null="true"></column>
       </key>

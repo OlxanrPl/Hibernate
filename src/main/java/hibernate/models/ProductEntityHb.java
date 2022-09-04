@@ -1,26 +1,26 @@
 package hibernate.models;
 
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 
 public class ProductEntityHb {
+
   private Integer id;
   private String description;
   private Double price;
   private Double count;
   private Set<BuyerEntityHb> buyerEntityHbs;
+  private ProductDepartment productDepartment;
 
   public ProductEntityHb() {
+  }
+
+  public ProductDepartment getProductDepartment() {
+    return productDepartment;
+  }
+
+  public void setProductDepartment(ProductDepartment productDepartment) {
+    this.productDepartment = productDepartment;
   }
 
   public Double getCount() {
@@ -66,10 +66,11 @@ public class ProductEntityHb {
   @Override
   public String toString() {
     return "ProductEntityHb{" +
+        " productDepartment =" + productDepartment.getDepName() +
         "id=" + id +
         ", description='" + description + '\'' +
         ", price=" + price +
         ", count=" + count +
-         '}';
+        '}';
   }
 }
