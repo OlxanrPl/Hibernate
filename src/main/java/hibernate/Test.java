@@ -25,18 +25,18 @@ public class Test {
     productDepartment1.setDepName("Grocery");
 
     ProductEntityHb productEntityHb = new ProductEntityHb();
-    productEntityHb.setDescription("Juice2");
-    productEntityHb.setPrice(0.50d);
+    productEntityHb.setDescription("IceCola");
+    productEntityHb.setPrice(0.81d);
     productEntityHb.setCount(3d);
     productEntityHb.setProductDepartment(productDepartment1);
     ProductEntityHb productEntityHb1 = new ProductEntityHb();
-    productEntityHb1.setDescription("Yogurt");
-    productEntityHb1.setPrice(1.50d);
+    productEntityHb1.setDescription("Kefir");
+    productEntityHb1.setPrice(1.10d);
     productEntityHb1.setCount(2.5d);
     productEntityHb1.setProductDepartment(productDepartment);
     ProductEntityHb productEntityHb2 = new ProductEntityHb();
-    productEntityHb2.setDescription("Water");
-    productEntityHb2.setPrice(0.50d);
+    productEntityHb2.setDescription("Borgomy");
+    productEntityHb2.setPrice(0.41d);
     productEntityHb2.setCount(2d);
     productEntityHb2.setProductDepartment(productDepartment1);
 
@@ -56,9 +56,9 @@ public class Test {
 
     BuyerEntityHb buyerEntityHb = new BuyerEntityHb();
     Adress adress = new Adress();
-    adress.setDescription("Krasna Polyana str 5. Poltava");
+    adress.setDescription("Nebesnoi sotni 102 Poltava");
 
-    buyerEntityHb.setName("Oleksandr");
+    buyerEntityHb.setName("Viktoria");
     buyerEntityHb.setAdress(adress);
     adress.setBuyerEntityHb(buyerEntityHb);
     buyerEntityHb.setProductEntityHbSet(productEntityHbSet);
