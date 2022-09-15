@@ -4,6 +4,7 @@ import hibernate.models.Adress;
 import hibernate.models.BuyerEntityHb;
 import hibernate.services.SessionFactoryUtil;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,8 +13,9 @@ public class AdressDaoImpl implements AdressDao {
 
   @Override
   public List<Adress> getAllAdress() {
+    List<Adress> adressList = new ArrayList<>();
     try (Session session = SessionFactoryUtil.getSession()) {
-      List<Adress> adressList = (List<Adress>)
+
           session.createQuery("SELECT a From Adress a LEFT JOIN FETCH a.buyerEntityHb",
               Adress.class).list();
       return adressList;

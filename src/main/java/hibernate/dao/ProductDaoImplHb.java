@@ -1,12 +1,15 @@
 package hibernate.dao;
 
 import hibernate.dto.ProductDTO;
+import hibernate.dto.SumProductDTO;
 import hibernate.models.BuyerEntityHb;
 import hibernate.models.ProductEntityHb;
 import hibernate.services.SessionFactoryUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,48 +26,88 @@ public class ProductDaoImplHb implements ProductDao {
 
   @Override
   public List<ProductEntityHb> getAllProduct() {
+    List<ProductEntityHb> product = new ArrayList<>();
     try (Session session = SessionFactoryUtil.getSession()) {
-      List<ProductEntityHb> product = (List<ProductEntityHb>)
-          session.createQuery(
-              "Select pe From ProductEntityHb pe LEFT JOIN FETCH pe.productDepartment").list();
-      return product;
-    }
 
+         product.addAll(  session.createQuery(
+              "Select pe From ProductEntityHb pe LEFT JOIN FETCH pe.productDepartment").list());
+
+    }catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
+
+    }
+    return product;
   }
 
   @Override
   public ProductEntityHb getProductById(Integer ProductId) throws SQLException {
+    ProductEntityHb pEhb= new ProductEntityHb();
     try (Session session = SessionFactoryUtil.getSession()) {
-      return session.get(ProductEntityHb.class, ProductId);
+
+      pEhb= session.get(ProductEntityHb.class, ProductId);
+    }catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
+
     }
+    return pEhb;
   }
 
   @Override
   public void addProduct(ProductEntityHb be) {
-    Session session = SessionFactoryUtil.getSession();
-    Transaction transaction = session.beginTransaction();
-    session.save(be);
-    transaction.commit();
-    session.close();
+   try {
+     Session session = SessionFactoryUtil.getSession();
+     Transaction transaction = session.beginTransaction();
+     session.save(be);
+     transaction.commit();
+     session.close();
+   }catch (Exception ex) {
+     logger.error(ex.getMessage(), ex);
+
+   }
   }
 
   @Override
   public void deleteProduct(ProductEntityHb be) throws SQLException {
-    Session session = SessionFactoryUtil.getSession();
-    Transaction transaction = session.beginTransaction();
-    session.delete(be);
-    transaction.commit();
-    session.close();
+    try {
+      Session session = SessionFactoryUtil.getSession();
+      Transaction transaction = session.beginTransaction();
+      session.delete(be);
+      transaction.commit();
+      session.close();
+    } catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
 
+    }
   }
 
   @Override
   public void updateProduct(ProductEntityHb be) throws SQLException {
-    Session session = SessionFactoryUtil.getSession();
-    Transaction transaction = session.beginTransaction();
-    session.update(be);
-    transaction.commit();
-    session.close();
+   try {
+     Session session = SessionFactoryUtil.getSession();
+     Transaction transaction = session.beginTransaction();
+     session.update(be);
+     transaction.commit();
+     session.close();
+   }catch (Exception ex) {
+       logger.error(ex.getMessage(), ex);
+
+     }
+  }
+
+  @Override
+  public List<SumProductDTO> getSumAllProduct() {
+    List<SumProductDTO> lProd = new ArrayList<>();
+
+    try (Session session = SessionFactoryUtil.getSession()) {
+
+   lProd= ( session.createQuery(
+          "Select new hibernate.dto.SumProductDTO( pe.description as peProduct, sum(pe.price * pe.count) as peSuma) "
+              + "From ProductEntityHb pe group by pe.description ").getResultList());
+    }catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
+
+    }
+    return lProd;
   }
 
   public List<ProductDTO> getDepartment(Session session, String departmnt) {

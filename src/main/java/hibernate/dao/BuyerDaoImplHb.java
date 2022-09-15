@@ -99,15 +99,5 @@ public class BuyerDaoImplHb implements BuyerDao {
 
   }
 
-  @Override
-  public List<ProductEntityHb> getAllProduct() {
 
-    try (Session session = SessionFactoryUtil.getSession()) {
-      List<ProductEntityHb> products = (List<ProductEntityHb>)
-          session.createQuery(
-                  "Select e.productEntityHbSet From BuyerEntityHb e LEFT JOIN FETCH e.productEntityHbSet ")
-              .list();
-      return products;
-    }
-  }
 }

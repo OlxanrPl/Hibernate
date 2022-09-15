@@ -23,7 +23,6 @@ public interface BuyerDao {
 
   Adress getAdressById(Integer buyerId) throws SQLException;
 
-  List<ProductEntityHb> getAllProduct();
 
 }
 

@@ -53,6 +53,6 @@ public class BuyerEntityHb {
         ", name='" + name + '\'' +
         ", Adress= " + adress.getDescription() +
         ", Products = " + productEntityHbSet +
-        '}';
+        '}'+'\n';
   }
 }
